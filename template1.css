@@ -1,0 +1,24 @@
+body {
+    font-family: Georgia, serif;
+    background: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  .resume {
+    background: white;
+    padding: 30px;
+    margin: 20px auto;
+    max-width: 850px;
+    border: 1px solid #ccc;
+  }
+  
+  h1, h2 {
+    color: #2c3e50;
+  }
+  
+  ul {
+    margin: 0;
+    padding-left: 20px;
+  }
+  
