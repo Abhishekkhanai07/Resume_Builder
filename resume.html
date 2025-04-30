@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Your Resume</title>
+  <link id="template-style" rel="stylesheet" href="template1.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f0f0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .resume {
+      background: #fff;
+      max-width: 900px;
+      margin: auto;
+      padding: 40px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      text-align: left;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    h2 {
+      margin-top: 30px;
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 5px;
+    }
+
+    ul.list-style {
+      list-style-type: disc;
+      padding-left: 40px;
+    }
+
+    ul.list-style li {
+      margin-bottom: 5px;
+    }
+
+    .center {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="resume" id="resumeContent">
+    <h1 id="name"></h1>
+    <p class="center" id="header-info"></p>
+
+    <section>
+      <h2>Career Objective</h2>
+      <ul id="objective" class="list-style"></ul>
+    </section>
+
+    <section>
+      <h2>Education</h2>
+      <p><strong id="ug_degree"></strong> - <span id="ug_college"></span></p>
+      <p>Percentage: <span id="ug_percentage"></span>%</p>
+      <p><strong>PUC</strong> - <span id="puc_college"></span></p>
+      <p>Percentage: <span id="puc_percentage"></span>%</p>
+      <p><strong>SSLC</strong> - <span id="sslc_school"></span></p>
+      <p>Percentage: <span id="sslc_percentage"></span>%</p>
+    </section>
+
+    <section>
+      <h2>Skills</h2>
+      <ul id="skills" class="list-style"></ul>
+    </section>
+
+    <section>
+      <h2>Experience</h2>
+      <ul id="experience" class="list-style"></ul>
+    </section>
+
+    <section>
+      <h2>Projects</h2>
+      <ul id="projects" class="list-style"></ul>
+    </section>
+  </div>
+
+  <div class="center">
+    <button onclick="downloadPDF()">Download PDF</button>
+    <button onclick="editDetails()">Edit Details</button>
+  </div>
+
+  <script>
+    // Apply selected template CSS
+    const selectedTemplate = localStorage.getItem('selectedTemplate') || 'template1';
+    document.getElementById('template-style').href = `${selectedTemplate}.css`;
+
+    // Load resume data
+    const resumeData = JSON.parse(localStorage.getItem('resumeData') || '{}');
+
+    // Fill contact details
+    document.getElementById('name').textContent = resumeData.username || '';
+    document.getElementById('header-info').textContent = `${resumeData.email || ''} | ${resumeData.phone || ''} | ${resumeData.linkedin || ''}`;
+
+    // Fill education
+    document.getElementById('ug_degree').textContent = resumeData.ug_degree || '';
+    document.getElementById('ug_college').textContent = resumeData.ug_college || '';
+    document.getElementById('ug_percentage').textContent = resumeData.ug_percentage || '';
+    document.getElementById('puc_college').textContent = resumeData.puc_college || '';
+    document.getElementById('puc_percentage').textContent = resumeData.puc_percentage || '';
+    document.getElementById('sslc_school').textContent = resumeData.sslc_school || '';
+    document.getElementById('sslc_percentage').textContent = resumeData.sslc_percentage || '';
+
+    // Format text into bullet list with //bold//
+    function renderFormattedText(text) {
+      if (!text) return '';
+      const lines = text.split('\n').filter(line => line.trim() !== '');
+      return lines.map(line => {
+        const formatted = line.replace(/\/\/(.*?)\/\//g, '<strong>$1</strong>');
+        return `<li>${formatted}</li>`;
+      }).join('');
+    }
+
+    // Fill content sections
+    document.getElementById('objective').innerHTML = renderFormattedText(resumeData.objective);
+    document.getElementById('skills').innerHTML = renderFormattedText(resumeData.skills);
+    document.getElementById('experience').innerHTML = renderFormattedText(resumeData.experience);
+    document.getElementById('projects').innerHTML = renderFormattedText(resumeData.projects);
+
+    // PDF Download
+    function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('p', 'pt', 'a4');
+      doc.html(document.getElementById('resumeContent'), {
+        callback: function (pdf) {
+          pdf.save(`${resumeData.username || 'resume'}.pdf`);
+        },
+        x: 30,
+        y: 30
+      });
+    }
+
+    // Go back to form
+    function editDetails() {
+      window.location.href = 'details.html';
+    }
+  </script>
+</body>
+</html>
