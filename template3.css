@@ -1,0 +1,26 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #ffecd2, #fcb69f);
+    color: #111;
+  }
+  
+  .resume {
+    background: #fff;
+    padding: 50px;
+    margin: 40px auto;
+    max-width: 950px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  }
+  
+  h1 {
+    color: #e91e63;
+    text-align: center;
+  }
+  
+  h2 {
+    color: #3f51b5;
+    border-bottom: 2px dashed #ccc;
+    margin-top: 30px;
+  }
+  
